@@ -19,7 +19,7 @@ public class TestConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("TestConfig RUNNING");
+		System.out.println("TestConfig RUNNING - CRUD working");
 		User u1 = new User(null, "joaovmr", "j040vmr@gmail.com", "joao0159753");
 		User u2 = new User(null, "divaldinho", "edervalg@gmail.com", "divalgay2424");
 		User u3 = new User(null, "davirochabc", "davirochabc@gmail.com", "eu4mor0l4");
