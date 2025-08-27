@@ -2,29 +2,36 @@ package com.loginSystem.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.loginSystem.dto.UserDTO;
+import com.loginSystem.dto.RegisterDTO;
 import com.loginSystem.dto.UserResponseDTO;
 import com.loginSystem.entity.User;
 import com.loginSystem.mapper.UserMapper;
 import com.loginSystem.repository.UserRepository;
 
+
 @Service
 public class UserService {
 	
 	private final UserRepository repository;
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final JwtService jwtService;	
 	
-	public UserService(UserRepository repository) {
+	public UserService(UserRepository repository, JwtService jwtService) {
 		this.repository = repository;
+        this.jwtService = jwtService;
 	}
 	
 	// CREATE
     @Transactional
-    public UserResponseDTO create(UserDTO dto) {
+    public UserResponseDTO create(RegisterDTO dto) {
+    	
+    	String encodedPassword = passwordEncoder.encode(dto.password());
         // Converter DTO para entidade
-        User user = UserMapper.toEntity(dto);
+        User user = UserMapper.toEntity(dto, encodedPassword);
         // Salvar no banco
         repository.save(user);
         // Converter para DTO de resposta
@@ -50,7 +57,7 @@ public class UserService {
     
     // UPDATE
     @Transactional
-    public UserResponseDTO update(Long id, UserDTO dto) {
+    public UserResponseDTO update(Long id, RegisterDTO dto) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
         user.setUsername(dto.username());

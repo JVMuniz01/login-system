@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.loginSystem.dto.UserDTO;
+import com.loginSystem.dto.RegisterDTO;
 import com.loginSystem.dto.UserResponseDTO;
 import com.loginSystem.service.UserService;
 
@@ -31,7 +31,7 @@ public class UserController {
 	
 	//METODO CREATE
 	@PostMapping("/register")
-	public ResponseEntity<UserResponseDTO>create(@Valid @RequestBody UserDTO dto) {
+	public ResponseEntity<UserResponseDTO>create(@Valid @RequestBody RegisterDTO dto) {
 		UserResponseDTO response = service.create(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
@@ -50,7 +50,7 @@ public class UserController {
     }
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @Valid @RequestBody RegisterDTO dto) {
         UserResponseDTO response = service.update(id, dto);
         return ResponseEntity.ok(response);
     }
