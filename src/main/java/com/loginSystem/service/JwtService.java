@@ -12,13 +12,13 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 	private static final String SECRET_KEY = "segredo_super_secreto_32_chars_minimo!!";
-	private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+	private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(java.nio.charset.StandardCharsets.UTF_8));
 	
 	public String generateToken(String email) {
 	    return Jwts.builder()
 	            .setSubject(email)
 	            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hora
-	            .signWith(key, SignatureAlgorithm.HS512)
+	            .signWith(key, SignatureAlgorithm.HS256)
 	            .compact();
 	}
 	public String extractEmail(String token) {

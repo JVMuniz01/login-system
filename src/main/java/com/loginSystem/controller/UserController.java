@@ -1,5 +1,6 @@
 package com.loginSystem.controller;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.loginSystem.dto.LoginDTO;
 import com.loginSystem.dto.RegisterDTO;
 import com.loginSystem.dto.UserResponseDTO;
 import com.loginSystem.service.UserService;
@@ -61,4 +63,15 @@ public class UserController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO dto){
+    	try {
+    		String token = service.login(dto.email(), dto.password());
+    		return ResponseEntity.ok(Map.of("Token", token));
+    	}catch (RuntimeException e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    }
+    
 }

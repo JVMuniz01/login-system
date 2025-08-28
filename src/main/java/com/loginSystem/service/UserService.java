@@ -66,6 +66,7 @@ public class UserService {
         repository.save(user);
         return UserMapper.toResponseDTO(user);
     }
+    
     // DELETE
     @Transactional
     public void delete(Long id) {
@@ -73,6 +74,17 @@ public class UserService {
             throw new RuntimeException("User not found with id " + id);
         }
         repository.deleteById(id);
+    }
+    
+    //Login
+    @Transactional
+    public String login(String email, String password) {
+    	User user = repository.findByEmail(email)
+    			.orElseThrow(() -> new RuntimeException("Email não encontrado"));
+    	if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Senha inválida");
+        }
+        return jwtService.generateToken(user.getEmail());
     }
 
 	
