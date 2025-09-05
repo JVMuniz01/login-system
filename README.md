@@ -29,6 +29,34 @@ Git
 🔧 Como rodar o Backend
 
 Clone o repositório do backend:
-```bash 
+
+```bash
 git clone https://github.com/JVMuniz01/login-system.git
 cd login-system
+```
+Rodar a api:
+```bash
+mvn spring-boot:run
+```
+
+🎨 Como rodar o Frontend
+
+Clone o repositório do frontend:
+```bash
+git clone https://github.com/JVMuniz01/login-system-front.git
+cd login-system-front
+```
+Configuração
+
+Crie um arquivo .env.local na raiz com a URL da API backend:
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+Rodar o front:
+```bash
+npm install
+npm run dev
+```
+
+Front-end disponivel na porta http://localhost:3000
